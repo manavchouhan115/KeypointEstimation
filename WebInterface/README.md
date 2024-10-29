@@ -32,9 +32,9 @@ cd Webinterface
 
 2. In app.py there are 2 input parameters - model and frame_rate
 
-#Enter the model here
+- Enter the model here
 model = YOLO(model_path) 
-#Enter frame rate i.e. after how many seconds you want to process the frame 
+- Enter frame rate i.e. after how many seconds you want to process the frame 
 frame_rate = 1 
 
 
