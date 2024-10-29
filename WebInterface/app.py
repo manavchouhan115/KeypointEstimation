@@ -12,12 +12,14 @@ import math
 app = Flask(__name__)
 
 #-------------------Inputs------------------------------------------
-model = YOLO(r"object_detection\yolov8n.pt") #Enter the model here
-frame_rate = 1 # Enter frame rate i.e. after how many seconds you want to process the frame 
+model_path = os.path.join('object_detection','yolov8n.pt')
+#Enter the model here
+model = YOLO(model_path) 
+# Enter frame rate i.e. after how many seconds you want to process the frame 
+frame_rate = 1 
 
 class Detection:
     def __init__(self):
-        #download weights from here:https://github.com/ultralytics/ultralytics and change the path
         self.model = model
         self.stickDetails = []
 
@@ -68,23 +70,17 @@ class Detection:
         return angle_degrees, length
 
     def get_stick_details(self):
-        # Simulating stick detection results (replace with actual model output)
-        # angle1 = None
-        # length1 = None
-        # coordinates1 = None
-        # angle2 = None
-        # length2 = None
-        # coordinates2 = None
-        #if self.stickDetails == 1
-        print(self.stickDetails)
-        # if len(self.stickDetails) == 1:
-        #     angle1 = self.stickDetails[1][0]
-        #     length1 =  self.stickDetails[2][0]
-        #     coordinates1 =  self.stickDetails[0][0]
-        # if len(self.stickDetails) == 2:
-        #     angle1 = self.stickDetails[1][1]
-        #     length1 =  self.stickDetails[2][1]
-        #     coordinates1 =  self.stickDetails[0][1]
+        #print(self.stickDetails)
+        details = {
+                "stick_type1": "Small",
+                "angle1": 45,
+                "length1": 120,
+                "coordinates1": [(100, 200), (150, 300)],
+                "stick_type2": "Big",
+                "angle2": 30,
+                "length2": 150,
+                "coordinates2": [(100, 200), (150, 300)]
+            }
         if self.stickDetails:
             try:
                 details = {
@@ -98,19 +94,8 @@ class Detection:
                     "coordinates2": self.stickDetails[0][1]
                 }
             except IndexError:
-                print("IndexError: There is only 1 stick in the frame.")
-        else:
-            details = {
-                "stick_type1": "Small",
-                "angle1": 45,
-                "length1": 120,
-                "coordinates1": [(100, 200), (150, 300)],
-                "stick_type2": "Big",
-                "angle2": 30,
-                "length2": 150,
-                "coordinates2": [(100, 200), (150, 300)]
-            }
-
+                print("Error: There are not enough objects on the frame to detect!")
+                return details
 
         return details
 
@@ -127,12 +112,6 @@ detection = Detection()
 @app.route('/')
 def index():
     return render_template('video1.html')
-
-
-@app.route('/video')
-def index_video():
-    return render_template('video.html')
-
 
 def gen_frames():
     cap = cv2.VideoCapture(0)
@@ -160,7 +139,7 @@ def gen_frames():
 def stick_data():
     # Return stick details in JSON format
     data = detection.get_stick_details()
-    print(data)
+    #print(data)
     return jsonify(data)
 
 @app.route('/video_feed')
@@ -170,58 +149,4 @@ def video_feed():
 
 if __name__ == '__main__':
     app.run(host="127.0.0.1", port=8000)
-    #http://localhost:8000/video for video source
-    #http://localhost:8000 for image source
-
-
-# @app.route('/object-detection/', methods=['POST'])
-# def apply_detection():
-#     if 'image' not in request.files:
-#         return 'No file part'
-
-#     file = request.files['image']
-#     if file.filename == '':
-#         return 'No selected file'
-
-#     if file:
-#         filename = secure_filename(file.filename)
-#         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-#         file.save(file_path)
-
-#         img = Image.open(file_path).convert("RGB")
-#         img = np.array(img)
-#         img = cv2.resize(img, (512, 512))
-#         img = detection.detect_from_image(img)
-#         output = Image.fromarray(img)
-
-#         buf = io.BytesIO()
-#         output.save(buf, format="PNG")
-#         buf.seek(0)
-
-#         os.remove(file_path)
-#         return send_file(buf, mimetype='image/png')
-
-# def get_stick_details():
-#     # Simulating stick detection results (replace with actual model output)
-#     details = {
-#         "stick_type1": "Small",
-#         "angle1": 45,
-#         "length1": 120,
-#         "coordinates1": [(100, 200), (150, 300)],
-#         "stick_type2": "Big",
-#         "angle2": 30,
-#         "length2": 150,
-#         "coordinates2": [(100, 200), (150, 300)]
-#     }
-#     return details
-
-# stickJson = {
-#         "stick_type1": "Small",
-#         "angle1": 45,
-#         "length1": 120,
-#         "coordinates1": [(100, 200), (150, 300)],
-#         "stick_type2": "Big",
-#         "angle2": 30,
-#         "length2": 150,
-#         "coordinates2": [(100, 200), (150, 300)]
-#     }
+ 
