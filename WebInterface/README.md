@@ -1,6 +1,6 @@
 # Object Detection Flask Application
 
-This repository contains a Flask-based web application for object detection using the YOLO (You Only Look Once) model. The application can process images and video streams, detecting objects and displaying the results.
+This repository contains a Flask-based web application for object detection using the YOLO (You Only Look Once) model. The application can process  video streams, detecting objects and displaying the results.
 
 <div>
     <img src="./img1.jpg" width="60%" hight="50%">
@@ -26,11 +26,17 @@ This repository contains a Flask-based web application for object detection usin
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/givkashi/Object-Detection-Yolo-Flask.git
-cd Object-Detection-Yolo-Flask
+git clone https://github.com/manavchouhan115/KeypointEstimation.git
+cd Webinterface
 ```
 
-2. Download the YOLO weights from [[here](https://github.com/ultralytics/ultralytics)] and place them in the object_detection directory.
+2. in app.py there are 2 input parameters.
+'''bash
+#Enter the model here
+model = YOLO(model_path) 
+# Enter frame rate i.e. after how many seconds you want to process the frame 
+frame_rate = 1 
+'''
 
 3. Running the Application
 To start the Flask application, run:
@@ -39,12 +45,7 @@ python app.py
 ```
 The application will be available at http://localhost:8000.
 
-Usage
-Image Upload
-1. Open your browser and navigate to http://localhost:8000.
-2. Upload an image file.
-3. The application will process the image and display the detected objects.
 
 Real-time Video Detection
-1. Open your browser and navigate to http://localhost:8000/video.
-2. The application will start the webcam and display the real-time object detection.
+1. Open your browser and navigate to http://localhost:8000/
+2. The application will start the webcam and display the real-time object detection and display the coordinates, angles and length deails.
