@@ -30,13 +30,13 @@ git clone https://github.com/manavchouhan115/KeypointEstimation.git
 cd Webinterface
 ```
 
-2. in app.py there are 2 input parameters.
-'''bash
+2. In app.py there are 2 input parameters - model and frame_rate
+
 #Enter the model here
 model = YOLO(model_path) 
 # Enter frame rate i.e. after how many seconds you want to process the frame 
 frame_rate = 1 
-'''
+
 
 3. Running the Application
 To start the Flask application, run:
