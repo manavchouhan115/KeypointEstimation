@@ -34,7 +34,7 @@ cd Webinterface
 
 #Enter the model here
 model = YOLO(model_path) 
-# Enter frame rate i.e. after how many seconds you want to process the frame 
+#Enter frame rate i.e. after how many seconds you want to process the frame 
 frame_rate = 1 
 
 
